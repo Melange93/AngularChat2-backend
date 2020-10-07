@@ -1,6 +1,5 @@
 package com.reka.lakatos.angularchatbackend.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -11,12 +10,11 @@ import java.util.Date;
 public class ChatMessage {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private AppUser user;
 
     private String message;
 

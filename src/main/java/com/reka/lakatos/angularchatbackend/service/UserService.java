@@ -1,6 +1,6 @@
 package com.reka.lakatos.angularchatbackend.service;
 
-import com.reka.lakatos.angularchatbackend.entity.User;
+import com.reka.lakatos.angularchatbackend.entity.AppUser;
 import com.reka.lakatos.angularchatbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -13,13 +13,13 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public void registerUser(User user) {
+    public void registerUser(AppUser user) {
         PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
-    public User findUserByUserName(String name) {
+    public AppUser findUserByUserName(String name) {
         return userRepository.findUserByUserName(name);
     }
 }
