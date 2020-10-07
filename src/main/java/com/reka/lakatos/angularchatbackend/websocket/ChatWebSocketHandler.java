@@ -1,8 +1,10 @@
 package com.reka.lakatos.angularchatbackend.websocket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.reka.lakatos.angularchatbackend.entity.AppUser;
 import com.reka.lakatos.angularchatbackend.entity.ChatMessage;
 import com.reka.lakatos.angularchatbackend.service.ChatMessageService;
+import com.reka.lakatos.angularchatbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
@@ -19,6 +21,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
 
     private final List<WebSocketSession> webSocketSessions = new ArrayList<>();
     private final ChatMessageService chatService;
+    private final UserService userService;
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -29,6 +32,8 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         ChatMessage chatMessage = objectMapper.readValue(message.getPayload(), ChatMessage.class);
+        AppUser userFromDb = userService.findUserByUserName(chatMessage.getUser().getUserName());
+        chatMessage.setUser(userFromDb);
         chatService.saveChatMessage(chatMessage);
 
         for (WebSocketSession webSocketSession : webSocketSessions) {
