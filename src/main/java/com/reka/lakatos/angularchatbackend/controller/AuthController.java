@@ -57,7 +57,7 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/logout-user")
+    @PostMapping("/logout")
     public ResponseEntity logout(HttpServletRequest req, HttpServletResponse response) {
         try {
             Cookie cookieToken = new Cookie("token", null);

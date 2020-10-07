@@ -1,5 +1,6 @@
 package com.reka.lakatos.angularchatbackend.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
@@ -11,13 +12,10 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+@RequiredArgsConstructor
 public class JwtTokenFilter extends GenericFilterBean {
 
-    private JwtTokenServices jwtTokenServices;
-
-    JwtTokenFilter(JwtTokenServices jwtTokenServices) {
-        this.jwtTokenServices = jwtTokenServices;
-    }
+    private final JwtTokenServices jwtTokenServices;
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
