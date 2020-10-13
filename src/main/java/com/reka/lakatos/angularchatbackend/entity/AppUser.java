@@ -2,7 +2,6 @@ package com.reka.lakatos.angularchatbackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.Getter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -34,9 +33,21 @@ public class AppUser {
             cascade = CascadeType.PERSIST)
     private List<ChatMessage> chatMessages;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "creator", fetch = FetchType.LAZY,
+            cascade = CascadeType.PERSIST)
+    private List<ChatRoom> createdRooms;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY,
+            cascade = CascadeType.PERSIST)
+    private List<ChatRoom> member;
+
     public AppUser() {
         this.roles = Collections.singletonList(Roles.USER);
         this.chatMessages = new ArrayList<>();
+        this.createdRooms = new ArrayList<>();
+        this.member = new ArrayList<>();
     }
 
     public List<String> getRolesInString() {

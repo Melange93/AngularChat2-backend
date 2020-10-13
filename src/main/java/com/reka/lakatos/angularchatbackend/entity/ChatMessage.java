@@ -19,4 +19,7 @@ public class ChatMessage {
     private String message;
 
     private Date timeStamp;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ChatRoom chatRoom;
 }
