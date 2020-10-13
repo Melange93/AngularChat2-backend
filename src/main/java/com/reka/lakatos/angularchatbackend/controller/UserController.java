@@ -23,7 +23,7 @@ public class UserController {
             userService.registerUser(newUser);
             return ResponseEntity.status(HttpStatus.CREATED).body("User registration was successful.");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("This email is already registered.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
         }
     }
 }

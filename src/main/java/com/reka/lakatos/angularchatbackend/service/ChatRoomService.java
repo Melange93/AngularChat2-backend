@@ -7,6 +7,8 @@ import com.reka.lakatos.angularchatbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+
 @Service
 @RequiredArgsConstructor
 public class ChatRoomService {
@@ -19,6 +21,7 @@ public class ChatRoomService {
         String userName = creator.getUserName();
         AppUser userByUserName = userRepository.findUserByUserName(userName);
         chatRoom.setCreator(userByUserName);
+        chatRoom.setMembers(Collections.singletonList(userByUserName));
         return chatRoomRepository.save(chatRoom);
     }
 }

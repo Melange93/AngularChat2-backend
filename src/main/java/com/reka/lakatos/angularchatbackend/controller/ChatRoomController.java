@@ -21,7 +21,7 @@ public class ChatRoomController {
             ChatRoom savedRoom = chatRoomService.saveNewChatRoom(chatRoom);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedRoom);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("This room is already registered.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
         }
     }
 
