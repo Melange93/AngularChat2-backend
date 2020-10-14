@@ -21,7 +21,7 @@ public class ChatRoomService {
         String userName = creator.getUserName();
         AppUser userByUserName = userRepository.findUserByUserName(userName);
         chatRoom.setCreator(userByUserName);
-        chatRoom.setMembers(Collections.singletonList(userByUserName));
+        // chatRoom.setMembers(Collections.singletonList(userByUserName));
         return chatRoomRepository.save(chatRoom);
     }
 }

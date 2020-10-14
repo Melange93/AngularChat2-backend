@@ -32,7 +32,8 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         ChatMessage chatMessage = objectMapper.readValue(message.getPayload(), ChatMessage.class);
-        AppUser userFromDb = userService.findUserByUserName(chatMessage.getUser().getUserName());
+        String userName = chatMessage.getUser().getUserName();
+        AppUser userFromDb = userService.findUserByUserName(userName);
         chatMessage.setUser(userFromDb);
         chatService.saveChatMessage(chatMessage);
 
