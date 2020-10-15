@@ -1,6 +1,5 @@
 package com.reka.lakatos.angularchatbackend.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -35,5 +34,9 @@ public class ChatRoom {
     }
 
     public ChatRoom() {
+    }
+
+    public void addNewMemberToRoom(AppUser newMember) {
+        members.add(newMember);
     }
 }

@@ -44,7 +44,6 @@ public class UserController {
     public ResponseEntity getMemberRooms(@RequestBody AppUser oldUser) {
         try {
             List<ChatRoom> memberChatRoomByUserName = userService.getMemberChatRoomByUserName(oldUser.getUserName());
-            System.out.println(memberChatRoomByUserName);
             return ResponseEntity.status(HttpStatus.OK).body(memberChatRoomByUserName);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
