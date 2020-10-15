@@ -1,6 +1,7 @@
 package com.reka.lakatos.angularchatbackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 @Entity
 @Getter
 @Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,6 +28,7 @@ public class AppUser {
 
     private String password;
 
+    @JsonIgnore
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private List<Roles> roles;
@@ -52,6 +55,7 @@ public class AppUser {
         this.member = new ArrayList<>();
     }
 
+    @JsonIgnore
     public List<String> getRolesInString() {
         return roles.stream()
                 .map(Roles::getValue)
