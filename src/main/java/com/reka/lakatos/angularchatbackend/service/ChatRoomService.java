@@ -23,11 +23,11 @@ public class ChatRoomService {
         return chatRoomRepository.save(chatRoom);
     }
 
-    public void saveNewMember(long roomId, String userName) {
+    public ChatRoom saveNewMember(long roomId, String userName) {
         ChatRoom chatRoomById = getChatRoomById(roomId);
         AppUser userByUserName = userService.findUserByUserName(userName);
         chatRoomById.addNewMemberToRoom(userByUserName);
-        chatRoomRepository.save(chatRoomById);
+        return chatRoomRepository.save(chatRoomById);
     }
 
     public ChatRoom getChatRoomById(long id) {
