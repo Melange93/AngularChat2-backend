@@ -1,12 +1,15 @@
 package com.reka.lakatos.angularchatbackend.entity;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class ChatMessage {
 
     @Id
@@ -19,4 +22,7 @@ public class ChatMessage {
     private String message;
 
     private Date timeStamp;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ChatRoom chatRoom;
 }

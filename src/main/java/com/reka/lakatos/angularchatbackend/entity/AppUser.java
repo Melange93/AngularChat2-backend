@@ -1,8 +1,9 @@
 package com.reka.lakatos.angularchatbackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,7 +12,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
-@Data
+@Getter
+@Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,6 +28,7 @@ public class AppUser {
 
     private String password;
 
+    @JsonIgnore
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private List<Roles> roles;
@@ -34,11 +38,24 @@ public class AppUser {
             cascade = CascadeType.PERSIST)
     private List<ChatMessage> chatMessages;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "creator", fetch = FetchType.LAZY,
+            cascade = CascadeType.PERSIST)
+    private List<ChatRoom> createdRooms;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY,
+            cascade = CascadeType.PERSIST)
+    private List<ChatRoom> member;
+
     public AppUser() {
         this.roles = Collections.singletonList(Roles.USER);
         this.chatMessages = new ArrayList<>();
+        this.createdRooms = new ArrayList<>();
+        this.member = new ArrayList<>();
     }
 
+    @JsonIgnore
     public List<String> getRolesInString() {
         return roles.stream()
                 .map(Roles::getValue)

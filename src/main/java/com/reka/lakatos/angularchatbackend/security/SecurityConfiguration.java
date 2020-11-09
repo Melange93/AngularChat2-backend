@@ -36,7 +36,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/newuser").permitAll()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/logout-user").permitAll()
-                .antMatchers("/chat").authenticated()
+                .antMatchers("/chat/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/addchatroom").authenticated()
+                .antMatchers(HttpMethod.POST, "/getmemberrooms").authenticated()
+                .antMatchers(HttpMethod.POST, "/getcreatedrooms").authenticated()
+                .antMatchers(HttpMethod.POST, "/addnewmember").authenticated()
                 .anyRequest().denyAll()
                 .and()
                 .addFilterBefore(new JwtTokenFilter(jwtTokenServices), UsernamePasswordAuthenticationFilter.class);

@@ -2,6 +2,7 @@ package com.reka.lakatos.angularchatbackend.controller;
 
 import com.reka.lakatos.angularchatbackend.model.UserCredentials;
 import com.reka.lakatos.angularchatbackend.security.JwtTokenServices;
+import com.reka.lakatos.angularchatbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,6 +31,7 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenServices jwtTokenServices;
+    private final UserService userService;
 
     @PostMapping("/login")
     public ResponseEntity logIn(@RequestBody UserCredentials data, HttpServletResponse response) {
@@ -48,8 +50,10 @@ public class AuthController {
             cookieToken.setPath("/");
             response.addCookie(cookieToken);
 
+            String emailByUserName = userService.getEmailByUserName(userName);
             Map<Object, Object> model = new HashMap<>();
             model.put("userName", userName);
+            model.put("email", emailByUserName);
 
             return ResponseEntity.ok(model);
         } catch (AuthenticationException e) {
