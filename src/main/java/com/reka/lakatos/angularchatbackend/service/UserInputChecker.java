@@ -31,8 +31,8 @@ public class UserInputChecker {
             throw new UserNameAlreadyExistException("User name already exist.");
         }
 
-        if (isValidPassword(user.getPassword())) {
-            throw  new InvalidPasswordException("Invalid password.");
+        if (!isValidPassword(user.getPassword())) {
+            throw new InvalidPasswordException("Invalid password.");
         }
     }
 
