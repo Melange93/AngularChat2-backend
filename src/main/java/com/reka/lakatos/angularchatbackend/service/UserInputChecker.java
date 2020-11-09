@@ -7,12 +7,12 @@ import com.reka.lakatos.angularchatbackend.exception.InvalidPasswordException;
 import com.reka.lakatos.angularchatbackend.exception.UserNameAlreadyExistException;
 import com.reka.lakatos.angularchatbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class UserInputChecker {
 

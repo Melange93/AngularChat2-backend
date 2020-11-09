@@ -22,7 +22,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/newuser")
-    public UserResponse addNewUser(@RequestBody AppUser newUser) throws Exception {
+    public UserResponse addNewUser(@RequestBody AppUser newUser) {
         AppUser savedUser = userService.registerUser(newUser);
         return UserResponse.builder()
                 .userName(savedUser.getUserName())
