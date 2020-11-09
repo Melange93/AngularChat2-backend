@@ -2,6 +2,7 @@ package com.reka.lakatos.angularchatbackend.controller;
 
 import com.reka.lakatos.angularchatbackend.entity.AppUser;
 import com.reka.lakatos.angularchatbackend.entity.ChatRoom;
+import com.reka.lakatos.angularchatbackend.model.UserResponse;
 import com.reka.lakatos.angularchatbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,13 +22,11 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/newuser")
-    public ResponseEntity addNewUser(@RequestBody AppUser newUser) {
-        try {
-            userService.registerUser(newUser);
-            return ResponseEntity.status(HttpStatus.CREATED).body("User registration was successful.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
-        }
+    public UserResponse addNewUser(@RequestBody AppUser newUser) throws Exception {
+        AppUser savedUser = userService.registerUser(newUser);
+        return UserResponse.builder()
+                .userName(savedUser.getUserName())
+                .build();
     }
 
     @PostMapping("/getCreatedRooms")

@@ -15,11 +15,13 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserInputChecker userInputChecker;
 
-    public void registerUser(AppUser user) {
+    public AppUser registerUser(AppUser user) {
+        userInputChecker.checkUserInputNewUser(user);
         PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     public AppUser findUserByUserName(String name) {
