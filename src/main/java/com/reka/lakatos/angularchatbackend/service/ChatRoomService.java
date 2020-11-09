@@ -2,12 +2,11 @@ package com.reka.lakatos.angularchatbackend.service;
 
 import com.reka.lakatos.angularchatbackend.entity.AppUser;
 import com.reka.lakatos.angularchatbackend.entity.ChatRoom;
+import com.reka.lakatos.angularchatbackend.exception.ChatRoomNotFoundException;
 import com.reka.lakatos.angularchatbackend.repository.ChatRoomRepository;
-import com.reka.lakatos.angularchatbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -15,27 +14,27 @@ import java.util.Optional;
 public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     public ChatRoom saveNewChatRoom(ChatRoom chatRoom) {
-        AppUser creator = chatRoom.getCreator();
-        String userName = creator.getUserName();
-        AppUser userByUserName = userRepository.findUserByUserName(userName);
+        String creatorName = chatRoom.getCreator().getUserName();
+        AppUser userByUserName = userService.findUserByUserName(creatorName);
         chatRoom.setCreator(userByUserName);
         return chatRoomRepository.save(chatRoom);
     }
 
     public void saveNewMember(long roomId, String userName) {
-        Optional<ChatRoom> roomById = chatRoomRepository.findById(roomId);
-        AppUser userByUserName = userRepository.findUserByUserName(userName);
-        if (roomById.isPresent()) {
-            ChatRoom chatRoom = roomById.get();
-            chatRoom.addNewMemberToRoom(userByUserName);
-            chatRoomRepository.save(chatRoom);
-        }
+        ChatRoom chatRoomById = getChatRoomById(roomId);
+        AppUser userByUserName = userService.findUserByUserName(userName);
+        chatRoomById.addNewMemberToRoom(userByUserName);
+        chatRoomRepository.save(chatRoomById);
     }
 
     public ChatRoom getChatRoomById(long id) {
-        return chatRoomRepository.getOne(id);
+        Optional<ChatRoom> roomById = chatRoomRepository.findById(id);
+        if (roomById.isPresent()) {
+            return roomById.get();
+        }
+        throw new ChatRoomNotFoundException("Chat room not found.");
     }
 }
